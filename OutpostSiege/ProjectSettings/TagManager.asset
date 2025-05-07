@@ -11,8 +11,8 @@ TagManager:
   - 
   - Water
   - UI
-  - NPCs
   - Player
+  - NPCs
   - 
   - 
   - 
@@ -47,8 +47,14 @@ TagManager:
   - name: Trees
     uniqueID: 3065175653
     locked: 0
+  - name: Coin_Tree
+    uniqueID: 1173575535
+    locked: 0
+  - name: Outposts
+    uniqueID: 1699862633
+    locked: 0
   - name: NPCs
-    uniqueID: 2913945185
+    uniqueID: 4133148763
     locked: 0
   - name: Player
     uniqueID: 341444847

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4581627618580784152}
   - component: {fileID: 934519118959429856}
   - component: {fileID: 8056971245645280751}
+  - component: {fileID: 4244594706469857871}
   m_Layer: 0
   m_Name: Engineer
   m_TagString: Untagged
@@ -76,8 +77,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -161818533
-  m_SortingLayer: 3
+  m_SortingLayerID: 1830397673
+  m_SortingLayer: 7
   m_SortingOrder: 0
   m_Sprite: {fileID: -5752019556027899015, guid: da6c5820d5b63e642828e787cdc89387, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -176,3 +177,17 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4244594706469857871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6071343418525598006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 256565dcabe68cf43ab944eb1c22a6cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 3
+  stopDistance: 0.05

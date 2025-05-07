@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -9,6 +10,12 @@ public class Player : MonoBehaviour
     [Header("👷 Inginer")]
     [SerializeField] private Engineer engineer;
     [SerializeField] private float interactionRange = 2f;
+
+    [Header("💰 Monede")]
+    [SerializeField] private Text coinText;
+    [SerializeField] private int maxCoins = 20;
+    [SerializeField] private int startingCoins = 5;
+    private int currentCoins;
 
     private float movementX;
     private Rigidbody2D playerBody;
@@ -27,7 +34,13 @@ public class Player : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    void Update()
+    private void Start()
+    {
+        currentCoins = Mathf.Clamp(startingCoins, 0, maxCoins);
+        UpdateCoinUI();
+    }
+
+    private void Update()
     {
         PlayerMoveKeyboard();
         AnimatePlayer();
@@ -90,6 +103,20 @@ public class Player : MonoBehaviour
         {
             selectedTrees.Remove(tree);
             Debug.Log($"✅ Copac tăiat și scos din listă: {tree.name} (Rămași: {selectedTrees.Count})");
+
+            int coinsEarned = Random.Range(1, 3); // 1 sau 2
+            currentCoins = Mathf.Min(currentCoins + coinsEarned, maxCoins);
+            UpdateCoinUI();
+
+            Debug.Log($"💰 Ai primit {coinsEarned} monedă(e). Total: {currentCoins}");
+        }
+    }
+
+    void UpdateCoinUI()
+    {
+        if (coinText != null)
+        {
+            coinText.text = $"x{currentCoins}";
         }
     }
 
