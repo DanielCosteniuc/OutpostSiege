@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 256565dcabe68cf43ab944eb1c22a6cf
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - coinHolderPrefab: {fileID: 6664048122384657611, guid: 17b899d8503f9004b81b505650f89c7b, type: 3}
+  - coinPrefab: {fileID: 8772392449366757880, guid: 3d51dac5aa699634ea2807f2b89fb0ba, type: 3}
+  - engineerPrefab: {fileID: 6071343418525598006, guid: 5417777178fc7c243b6f57ce8d92533b, type: 3}
+  - engineerSpawnPoint: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
