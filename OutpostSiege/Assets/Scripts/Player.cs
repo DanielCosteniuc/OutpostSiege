@@ -78,6 +78,11 @@ public class Player : MonoBehaviour
     void TrySelectTree()
     {
         if (selectedTrees.Count >= maxTrees) return;
+        if (currentCoins <= 0)
+        {
+            Debug.Log("❌ Nu ai suficiente monede pentru a tăia un copac.");
+            return;
+        }
 
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, interactionRange);
 
@@ -89,6 +94,15 @@ public class Player : MonoBehaviour
                 tree.isSelected = true;
                 selectedTrees.Add(tree.gameObject);
 
+                currentCoins--; // scade o monedă
+                UpdateCoinUI();
+
+                Tree_Interactions interaction = tree.GetComponent<Tree_Interactions>();
+                if (interaction != null)
+                {
+                    interaction.ChangeCoinVisual(); // schimbă moneda
+                }
+
                 engineer.CutTree(tree.gameObject, OnTreeCut);
 
                 Debug.Log($"🌳 Copac selectat: {tree.name} (Total: {selectedTrees.Count})");
@@ -96,6 +110,7 @@ public class Player : MonoBehaviour
             }
         }
     }
+
 
     void OnTreeCut(GameObject tree)
     {
@@ -125,4 +140,24 @@ public class Player : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, interactionRange);
     }
+
+    public bool TrySpendCoin()
+    {
+        if (currentCoins > 0)
+        {
+            currentCoins--;
+            UpdateCoinUI();
+            return true;
+        }
+        return false;
+    }
+
+    public void AddCoinBack()
+    {
+        currentCoins = Mathf.Min(currentCoins + 1, maxCoins);
+        UpdateCoinUI();
+    }
+
+
+
 }

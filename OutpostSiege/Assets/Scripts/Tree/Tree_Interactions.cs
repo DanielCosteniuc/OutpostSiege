@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Tree_Interactions : MonoBehaviour
 {
@@ -8,8 +8,11 @@ public class Tree_Interactions : MonoBehaviour
 
     [Header("Coin Setup")]
     public GameObject coinPrefab;
+    public GameObject paidCoinPrefab;
     private GameObject coinInstance;
     public Transform coinSpawnPoint;
+
+    private bool isPaid = false; // 👉 adăugat
 
     private void Start()
     {
@@ -23,7 +26,7 @@ public class Tree_Interactions : MonoBehaviour
         {
             sr.color = highlightColor;
 
-            if (coinInstance == null) // only spawn once
+            if (coinInstance == null && !isPaid)
             {
                 coinInstance = Instantiate(coinPrefab, coinSpawnPoint.position, Quaternion.identity, transform);
             }
@@ -36,11 +39,31 @@ public class Tree_Interactions : MonoBehaviour
         {
             sr.color = originalColor;
 
-            if (coinInstance != null)
+            // 👉 nu mai distruge moneda dacă e deja plătită
+            if (!isPaid && coinInstance != null)
             {
                 Destroy(coinInstance);
                 coinInstance = null;
             }
+        }
+    }
+
+    public void ChangeCoinVisual()
+    {
+        if (coinInstance != null && paidCoinPrefab != null)
+        {
+            Destroy(coinInstance);
+            coinInstance = Instantiate(paidCoinPrefab, coinSpawnPoint.position, Quaternion.identity, transform);
+            isPaid = true; // 👉 marcat ca plătit
+        }
+    }
+
+    // Oferă o metodă publică dacă vrei să ștergi moneda când copacul e tăiat
+    public void RemoveCoinVisual()
+    {
+        if (coinInstance != null)
+        {
+            Destroy(coinInstance);
         }
     }
 }

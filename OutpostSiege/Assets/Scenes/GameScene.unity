@@ -119,17 +119,25 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &239883146 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4244594706469857871, guid: 5417777178fc7c243b6f57ce8d92533b, type: 3}
+--- !u!1 &271107855 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6071343418525598006, guid: 5417777178fc7c243b6f57ce8d92533b, type: 3}
   m_PrefabInstance: {fileID: 1386941147}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+--- !u!114 &271107861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 271107855}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 256565dcabe68cf43ab944eb1c22a6cf, type: 3}
+  m_Script: {fileID: 11500000, guid: a7945beb0ca719f42bf8488c9a973d88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeed: 3
+  stopDistance: 0.05
 --- !u!1 &399977051
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,7 +377,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000a749d36eef085a14e9a6196d65deb2b66f57f34569d85165
+  m_ApplyToSortingLayers: 00000000a749d36eef085a14e9a6196d65deb2b66f57f34569d851652999c093
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -479,7 +487,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1145719960}
   - component: {fileID: 1145719961}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Trees
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -656,15 +664,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4183612104685557204, guid: 5417777178fc7c243b6f57ce8d92533b, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4183612104685557204, guid: 5417777178fc7c243b6f57ce8d92533b, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4183612104685557204, guid: 5417777178fc7c243b6f57ce8d92533b, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4183612104685557204, guid: 5417777178fc7c243b6f57ce8d92533b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -686,10 +694,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4244594706469857871, guid: 5417777178fc7c243b6f57ce8d92533b, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6071343418525598006, guid: 5417777178fc7c243b6f57ce8d92533b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 271107861}
   m_SourcePrefab: {fileID: 100100000, guid: 5417777178fc7c243b6f57ce8d92533b, type: 3}
 --- !u!114 &1558409005 stripped
 MonoBehaviour:
@@ -929,7 +941,7 @@ PrefabInstance:
     - target: {fileID: 7056340976196789955, guid: 5da3ac2e52225314da04b6a6d2e9d106, type: 3}
       propertyPath: engineer
       value: 
-      objectReference: {fileID: 239883146}
+      objectReference: {fileID: 271107861}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -943,6 +955,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1318549864}
     m_Modifications:
+    - target: {fileID: 1377087915737397067, guid: 1ff4445cda9e5844b8d89434762b6f79, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 1409100620046858639, guid: 1ff4445cda9e5844b8d89434762b6f79, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1023,9 +1039,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1583666387892626384, guid: 1ff4445cda9e5844b8d89434762b6f79, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 5670445979734879365, guid: 1ff4445cda9e5844b8d89434762b6f79, type: 3}
       propertyPath: m_Name
       value: UI Elements
+      objectReference: {fileID: 0}
+    - target: {fileID: 5670445979734879365, guid: 1ff4445cda9e5844b8d89434762b6f79, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

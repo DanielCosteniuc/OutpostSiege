@@ -13,8 +13,8 @@ TagManager:
   - UI
   - Player
   - NPCs
-  - 
-  - 
+  - Tree
+  - Coin
   - 
   - 
   - 
@@ -61,6 +61,9 @@ TagManager:
     locked: 0
   - name: Ground
     uniqueID: 1830397673
+    locked: 0
+  - name: Coin
+    uniqueID: 2478872873
     locked: 0
   m_RenderingLayers:
   - Default

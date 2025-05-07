@@ -1,20 +1,51 @@
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
 public class Lvl1_Base_Interactions : MonoBehaviour
 {
-    [Header("Coin Interaction")]
+    [Header("Prefabs")]
     [SerializeField] private GameObject coinHolderPrefab;
+    [SerializeField] private GameObject coinPrefab;
     [SerializeField] private Transform[] coinSpawnPoints;
 
-    private GameObject[] spawnedCoins;
+    private GameObject[] coinHolders;
+    private GameObject[] coinVisuals;
+    private int coinsInserted = 0;
+
+    private Player player;
+    private bool playerInRange = false;
+
     private Main_Base_Generator baseGenerator;
 
     private void Start()
     {
         baseGenerator = GetComponentInParent<Main_Base_Generator>();
-        if (baseGenerator == null)
+        coinHolders = new GameObject[coinSpawnPoints.Length];
+        coinVisuals = new GameObject[coinSpawnPoints.Length];
+    }
+
+    private void Update()
+    {
+        if (!playerInRange || player == null) return;
+
+        if (Input.GetKeyDown(KeyCode.Space) && coinsInserted < coinSpawnPoints.Length)
         {
-            Debug.LogWarning("Main_Base_Generator not found in parent.");
+            if (player.TrySpendCoin())
+            {
+                GameObject coin = Instantiate(coinPrefab, coinSpawnPoints[coinsInserted].position, Quaternion.identity, coinHolders[coinsInserted].transform);
+                coinVisuals[coinsInserted] = coin;
+                coinsInserted++;
+
+                if (coinsInserted == coinSpawnPoints.Length)
+                {
+                    baseGenerator?.SetCanUpgrade(true);
+                    Debug.Log("✅ Baza este gata de upgrade!");
+                }
+            }
+            else
+            {
+                Debug.Log("❌ Nu ai destule monede!");
+            }
         }
     }
 
@@ -22,47 +53,54 @@ public class Lvl1_Base_Interactions : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            baseGenerator?.SetCanUpgrade(true);
+            player = other.GetComponent<Player>();
+            playerInRange = true;
 
-            if (spawnedCoins == null)
-            {
+            if (coinHolders[0] == null)
                 SpawnCoinHolders();
-            }
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Player") && other.GetComponent<Player>() == player)
         {
+            playerInRange = false;
             baseGenerator?.SetCanUpgrade(false);
-            DestroyCoinHolders();
+
+            // 👇 Salvăm referința actuală
+            Player exitingPlayer = player;
+
+            StartCoroutine(ReturnCoinsAfterDelay(1f, exitingPlayer));
+            player = null;
         }
     }
+
+
+    private IEnumerator ReturnCoinsAfterDelay(float delay, Player targetPlayer)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (coinsInserted < coinSpawnPoints.Length)
+        {
+            for (int i = 0; i < coinsInserted; i++)
+            {
+                if (coinVisuals[i] != null)
+                    Destroy(coinVisuals[i]);
+
+                targetPlayer?.AddCoinBack(); // 👉 Folosește referința salvată
+            }
+
+            coinsInserted = 0;
+        }
+    }
+
 
     private void SpawnCoinHolders()
     {
-        spawnedCoins = new GameObject[coinSpawnPoints.Length];
-
         for (int i = 0; i < coinSpawnPoints.Length; i++)
         {
-            spawnedCoins[i] = Instantiate(coinHolderPrefab, coinSpawnPoints[i].position, Quaternion.identity, transform);
-        }
-    }
-
-    private void DestroyCoinHolders()
-    {
-        if (spawnedCoins != null)
-        {
-            foreach (GameObject coin in spawnedCoins)
-            {
-                if (coin != null)
-                {
-                    Destroy(coin);
-                }
-            }
-
-            spawnedCoins = null;
+            coinHolders[i] = Instantiate(coinHolderPrefab, coinSpawnPoints[i].position, Quaternion.identity, transform);
         }
     }
 }

@@ -78,7 +78,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 341444847
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 7405406973212734814, guid: 4fcc909474110524a9ddbba513ed5ca6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -153,9 +153,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveForce: 6
+  engineer: {fileID: 0}
+  interactionRange: 2
   coinText: {fileID: 0}
   maxCoins: 20
-  startingCoins: 20
+  startingCoins: 2
 --- !u!70 &6296975683022078722
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

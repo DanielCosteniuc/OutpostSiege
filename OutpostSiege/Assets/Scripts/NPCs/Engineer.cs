@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -29,10 +29,10 @@ public class Engineer : MonoBehaviour
         if (!TreeAlreadyQueued(tree))
         {
             treeQueue.Enqueue((tree, onTreeCut));
-            Debug.Log($"✅ Copac adăugat: {tree.name}");
+            Debug.Log($"? Copac ad?ugat: {tree.name}");
 
-            // Afișăm coada actuală
-            string queueContents = "🌲 Coada curentă:";
+            // Afi??m coada actual?
+            string queueContents = "?? Coada curent?:";
             foreach (var item in treeQueue)
             {
                 queueContents += $" {item.tree.name}";
@@ -41,12 +41,12 @@ public class Engineer : MonoBehaviour
         }
         else
         {
-            Debug.Log($"⚠️ Copacul {tree.name} este deja în coadă!");
+            Debug.Log($"?? Copacul {tree.name} este deja �n coad?!");
         }
 
         if (!isHandlingQueue)
         {
-            Debug.Log("▶️ Pornim procesarea cozii de copaci...");
+            Debug.Log("?? Pornim procesarea cozii de copaci...");
             StartCoroutine(HandleQueue());
         }
     }
@@ -67,11 +67,11 @@ public class Engineer : MonoBehaviour
 
         while (treeQueue.Count > 0)
         {
-            var (tree, callback) = treeQueue.Peek(); // Obținem primul element
+            var (tree, callback) = treeQueue.Peek(); // Ob?inem primul element
 
             if (tree == null)
             {
-                treeQueue.Dequeue(); // Dacă copacul a fost distrus între timp
+                treeQueue.Dequeue(); // Dac? copacul a fost distrus �ntre timp
                 continue;
             }
 
@@ -80,29 +80,29 @@ public class Engineer : MonoBehaviour
             animator.SetBool("running", false);
             animator.SetBool("engineering", true);
 
-            // Simulăm tăierea
+            // Simul?m t?ierea
             yield return new WaitForSeconds(5f);
             animator.SetBool("engineering", false);
 
-            // Distrugem copacul și anunțăm callback-ul
+            // Distrugem copacul ?i anun??m callback-ul
             Destroy(tree);
             callback?.Invoke(tree);
 
             treeQueue.Dequeue();
-            yield return new WaitForSeconds(0.2f); // Pauză mică între tăieri
+            yield return new WaitForSeconds(0.2f); // Pauz? mic? �ntre t?ieri
         }
 
-        // Întoarcerea spre bază, cu verificare pe drum
+        // �ntoarcerea spre baz?, cu verificare pe drum
         Vector3 baseTarget = new Vector3(basePosition.x, transform.position.y, basePosition.z);
         animator.SetBool("running", true);
         FlipSprite(baseTarget.x);
 
         while (Vector3.Distance(transform.position, baseTarget) > stopDistance)
         {
-            // Dacă apare un copac nou în timp ce se întoarce, ne întoarcem din drum
+            // Dac? apare un copac nou �n timp ce se �ntoarce, ne �ntoarcem din drum
             if (treeQueue.Count > 0)
             {
-                Debug.Log("🔁 Copac nou detectat în drum spre bază! Ne întoarcem!");
+                Debug.Log("?? Copac nou detectat �n drum spre baz?! Ne �ntoarcem!");
                 StartCoroutine(HandleQueue());
                 yield break;
             }
