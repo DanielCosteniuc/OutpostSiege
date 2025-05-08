@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 3269001101658368996}
   - component: {fileID: 2955156946103017982}
   - component: {fileID: 8012058220090640872}
-  - component: {fileID: 7056340976196789955}
   - component: {fileID: 6296975683022078722}
+  - component: {fileID: 7056340976196789955}
+  - component: {fileID: -610618525762946182}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -78,7 +79,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 341444847
-  m_SortingLayer: 11
+  m_SortingLayer: 12
   m_SortingOrder: 0
   m_Sprite: {fileID: 7405406973212734814, guid: 4fcc909474110524a9ddbba513ed5ca6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -140,24 +141,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &7056340976196789955
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4762935749996554835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8c2c1b5e269635948818aa75eec35cd9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveForce: 6
-  engineer: {fileID: 0}
-  interactionRange: 2
-  coinText: {fileID: 0}
-  maxCoins: 20
-  startingCoins: 2
 --- !u!70 &6296975683022078722
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -195,3 +178,32 @@ CapsuleCollider2D:
   m_Offset: {x: 0.03172517, y: 1.3728551}
   m_Size: {x: 0.56062555, y: 1.7457101}
   m_Direction: 0
+--- !u!114 &7056340976196789955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4762935749996554835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2c1b5e269635948818aa75eec35cd9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinText: {fileID: 0}
+  maxCoins: 20
+  startingCoins: 10
+  interactionRange: 0
+--- !u!114 &-610618525762946182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4762935749996554835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2240a356cec8664408887f381bb9a3ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveForce: 10

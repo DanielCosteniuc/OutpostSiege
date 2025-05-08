@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 2168774247810688451}
   - component: {fileID: 8974580144023346575}
   - component: {fileID: 2505064818248865224}
+  - component: {fileID: -8473316805593624159}
   m_Layer: 7
   m_Name: Infantry
   m_TagString: Untagged
@@ -76,8 +77,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -161818533
-  m_SortingLayer: 10
+  m_SortingLayerID: 1830397673
+  m_SortingLayer: 13
   m_SortingOrder: 0
   m_Sprite: {fileID: -1578008358647256659, guid: 3c4c57c519c886c4da52ca805e66e7db, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -176,3 +177,17 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-8473316805593624159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5057842851164504610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae1cdbcba79abff48810d32efbea190c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 2
+  targetPoint: {fileID: 0}

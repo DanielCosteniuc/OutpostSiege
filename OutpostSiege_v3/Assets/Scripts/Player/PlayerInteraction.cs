@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Player : MonoBehaviour
+public class PlayerInteraction : MonoBehaviour
 {
-    [Header("⚙️ Mișcare")]
-    [SerializeField] private float moveForce = 10f;
-
     [Header("💰 Monede")]
     [SerializeField] private Text coinText;
     [SerializeField] private int maxCoins = 20;
@@ -18,22 +15,12 @@ public class Player : MonoBehaviour
     [SerializeField] private float interactionRange = 0.2f;
     private List<Engineer> engineers = new List<Engineer>();
 
-    private float movementX;
-    private Rigidbody2D playerBody;
-    private Animator animator;
-    private SpriteRenderer spriteRenderer;
+    [Header("💂 Infanterie")]
+    private List<Infantry> infantryList = new List<Infantry>();
 
-    private string RUNNING_ANIMATION = "running";
 
     private List<GameObject> selectedTrees = new List<GameObject>();
-    private int maxTrees = 3;
-
-    private void Awake()
-    {
-        playerBody = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-    }
+    private int maxTrees = 10;
 
     private void Start()
     {
@@ -43,47 +30,17 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        PlayerMoveKeyboard();
-        AnimatePlayer();
-
         if (Input.GetKeyDown(KeyCode.Space))
         {
             TrySelectTree();
         }
     }
 
-    void PlayerMoveKeyboard()
+    private void TrySelectTree()
     {
-        movementX = Input.GetAxisRaw("Horizontal");
-        transform.position += new Vector3(movementX, 0f, 0f) * Time.deltaTime * moveForce;
-    }
-
-    void AnimatePlayer()
-    {
-        if (movementX > 0f)
+        if (selectedTrees.Count >= maxTrees || currentCoins <= 0)
         {
-            animator.SetBool(RUNNING_ANIMATION, true);
-            spriteRenderer.flipX = false;
-        }
-        else if (movementX < 0f)
-        {
-            animator.SetBool(RUNNING_ANIMATION, true);
-            spriteRenderer.flipX = true;
-        }
-        else
-        {
-            animator.SetBool(RUNNING_ANIMATION, false);
-        }
-    }
-
-    void TrySelectTree()
-    {
-        if (selectedTrees.Count >= maxTrees)
-            return;
-
-        if (currentCoins <= 0)
-        {
-            Debug.Log("❌ Nu ai suficiente monede pentru a tăia un copac.");
+            Debug.Log(currentCoins <= 0 ? "❌ Nu ai suficiente monede." : "📦 Limită copaci atinsă.");
             return;
         }
 
@@ -96,30 +53,27 @@ public class Player : MonoBehaviour
             {
                 tree.isSelected = true;
                 selectedTrees.Add(tree.gameObject);
-
-                currentCoins--; // scade o monedă
+                currentCoins--;
                 UpdateCoinUI();
 
                 Tree_Interactions interaction = tree.GetComponent<Tree_Interactions>();
                 if (interaction != null)
-                {
-                    interaction.ChangeCoinVisual(); // schimbă moneda
-                }
+                    interaction.ChangeCoinVisual();
 
-                Engineer availableEngineer = GetAvailableEngineer();
-                if (availableEngineer != null)
+                Engineer eng = GetAvailableEngineer();
+                if (eng != null)
                 {
-                    availableEngineer.CutTree(tree.gameObject, OnTreeCut);
-                    Debug.Log($"🌳 Copac trimis către: {availableEngineer.name}");
+                    eng.CutTree(tree.gameObject, OnTreeCut);
+                    Debug.Log($"🌳 Trimite copacul la {eng.name}");
                 }
                 else if (engineers.Count > 0)
                 {
-                    engineers[0].CutTree(tree.gameObject, OnTreeCut); // adaugă în coada primului
-                    Debug.Log("⌛ Toți inginerii sunt ocupați. Copacul a fost pus în așteptare.");
+                    engineers[0].CutTree(tree.gameObject, OnTreeCut);
+                    Debug.Log("⌛ Fără ingineri liberi, pus în așteptare.");
                 }
                 else
                 {
-                    Debug.Log("❌ Nu există niciun inginer!");
+                    Debug.Log("❌ Niciun inginer disponibil.");
                 }
 
                 break;
@@ -127,39 +81,33 @@ public class Player : MonoBehaviour
         }
     }
 
-
-    Engineer GetAvailableEngineer()
+    private Engineer GetAvailableEngineer()
     {
         foreach (var eng in engineers)
-        {
             if (!eng.IsBusy())
                 return eng;
-        }
 
         return null;
     }
 
-    void OnTreeCut(GameObject tree)
+    private void OnTreeCut(GameObject tree)
     {
         if (selectedTrees.Contains(tree))
         {
             selectedTrees.Remove(tree);
-            Debug.Log($"✅ Copac tăiat și scos din listă: {tree.name} (Rămași: {selectedTrees.Count})");
 
-            int coinsEarned = Random.Range(1, 3); // 1 sau 2
+            int coinsEarned = Random.Range(1, 3);
             currentCoins = Mathf.Min(currentCoins + coinsEarned, maxCoins);
             UpdateCoinUI();
 
-            Debug.Log($"💰 Ai primit {coinsEarned} monedă(e). Total: {currentCoins}");
+            Debug.Log($"✅ Copac tăiat. +{coinsEarned} monede. Total: {currentCoins}");
         }
     }
 
-    void UpdateCoinUI()
+    private void UpdateCoinUI()
     {
         if (coinText != null)
-        {
             coinText.text = $"x{currentCoins}";
-        }
     }
 
     private void OnDrawGizmosSelected()
@@ -187,7 +135,6 @@ public class Player : MonoBehaviour
     private IEnumerator ReturnCoinsAfterDelay(float delay, int amount)
     {
         yield return new WaitForSeconds(delay);
-
         for (int i = 0; i < amount; i++)
         {
             AddCoinBack();
@@ -203,8 +150,13 @@ public class Player : MonoBehaviour
     public void AddEngineer(Engineer newEngineer)
     {
         if (newEngineer != null && !engineers.Contains(newEngineer))
-        {
             engineers.Add(newEngineer);
-        }
     }
+
+    public void AddInfantry(Infantry newInfantry)
+    {
+        if (newInfantry != null && !infantryList.Contains(newInfantry))
+            infantryList.Add(newInfantry);
+    }
+
 }

@@ -636,7 +636,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 00000000a749d36eef085a14e9a6196d65deb2b66f57f34569d851652999c0938ffdd682794eeb2875c2f16673d60e2685a249f1
+  m_ApplyToSortingLayers: 00000000a749d36eef085a14e9a6196d65deb2b66f57f34569d851652999c0938ffdd682794eeb2875c2f16673d60e2685a249f15be319f5
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -2285,8 +2285,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4028790083923915759, guid: 5417777178fc7c243b6f57ce8d92533b, type: 3}
     - target: {fileID: 7056340976196789955, guid: 5da3ac2e52225314da04b6a6d2e9d106, type: 3}
+      propertyPath: maxCoins
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7056340976196789955, guid: 5da3ac2e52225314da04b6a6d2e9d106, type: 3}
       propertyPath: startingCoins
-      value: 20
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 7056340976196789955, guid: 5da3ac2e52225314da04b6a6d2e9d106, type: 3}
       propertyPath: interactionRange

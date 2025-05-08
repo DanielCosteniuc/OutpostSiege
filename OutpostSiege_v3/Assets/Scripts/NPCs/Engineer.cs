@@ -10,7 +10,7 @@ public class Engineer : MonoBehaviour
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
-    [SerializeField] private float moveSpeed = 3f;
+    [SerializeField] private float moveSpeed = 4f;
     [SerializeField] private float stopDistance = 0.05f;
 
     private Queue<(GameObject tree, Action<GameObject> callback)> treeQueue = new();

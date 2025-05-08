@@ -330,7 +330,7 @@ Transform:
   m_GameObject: {fileID: 5050415610675139993}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.99, y: -0.37, z: 0}
+  m_LocalPosition: {x: 2.45, y: -0.43, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -519,6 +519,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinHolderPrefab: {fileID: 6664048122384657611, guid: 17b899d8503f9004b81b505650f89c7b, type: 3}
+  coinPrefab: {fileID: 8772392449366757880, guid: 3d51dac5aa699634ea2807f2b89fb0ba, type: 3}
+  infantryPrefab: {fileID: 5057842851164504610, guid: ec6e20d6e00dc2c4da10d8259d67836d, type: 3}
   coinSpawnPoints:
   - {fileID: 3363587513648890614}
   - {fileID: 5522811775086227356}
+  infantrySpawnPoint: {fileID: 744462579647598278}

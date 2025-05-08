@@ -65,6 +65,9 @@ TagManager:
   - name: Coin_Tree
     uniqueID: 1173575535
     locked: 0
+  - name: DefaultCoin
+    uniqueID: 4112114523
+    locked: 0
   - name: Outposts
     uniqueID: 1699862633
     locked: 0
