@@ -1,0 +1,88 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 3
+  tags:
+  - Tree
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Player
+  - NPCs
+  - Walls
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Sky
+    uniqueID: 1859340711
+    locked: 0
+  - name: Clouds2
+    uniqueID: 3236540309
+    locked: 0
+  - name: Clouds1
+    uniqueID: 1432126385
+    locked: 0
+  - name: BackHills
+    uniqueID: 385911227
+    locked: 0
+  - name: FrontHills
+    uniqueID: 3148624175
+    locked: 0
+  - name: Base
+    uniqueID: 4130975987
+    locked: 0
+  - name: Trees
+    uniqueID: 3065175653
+    locked: 0
+  - name: Outposts
+    uniqueID: 1699862633
+    locked: 0
+  - name: Coin_Holder
+    uniqueID: 1173575535
+    locked: 0
+  - name: Coin_Placed
+    uniqueID: 3068572377
+    locked: 0
+  - name: NPCs
+    uniqueID: 4161812875
+    locked: 0
+  - name: Player
+    uniqueID: 341444847
+    locked: 0
+  - name: Ground
+    uniqueID: 1830397673
+    locked: 0
+  - name: BUFFER
+    uniqueID: 3768255447
+    locked: 0
+  m_RenderingLayers:
+  - Default
