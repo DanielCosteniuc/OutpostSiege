@@ -12,20 +12,36 @@ public class Engineer : MonoBehaviour
 
     [Header("Tree Cutting")]
     [SerializeField] private float cutDuration = 2f; // configurable in Inspector
-    [SerializeField] private int minCoins = 1;
-    [SerializeField] private int maxCoins = 2;
 
     private Vector3 basePosition;
     private Animator animator;
     private SpriteRenderer spriteRenderer;
 
+    //queue pt trees
     private readonly Queue<(GameObject tree, Action<GameObject> callback)> taskQueue = new();
+
+    //queue pt walls
+    private readonly Queue<(MonoBehaviour wall, Action<GameObject> callback)> wallTaskQueue = new();
+
+    //queue pt towers/outposts
+    private readonly Queue<(MonoBehaviour outpost, Action<GameObject> callback)> outpostTaskQueue = new();
+
 
     private void OnEnable()
     {
         // Subscribe to Tree_Task_Manager's event to get notified when a new task is added
         if (Tree_Task_Manager.Instance != null)
             Tree_Task_Manager.Instance.OnNewTaskAdded += OnNewTaskAddedHandler;
+
+        ////for walls
+        if (Engineer_Wall_Manager.Instance != null)
+            Engineer_Wall_Manager.Instance.OnNewWallTaskAdded += OnNewWallTaskAddedWall;
+
+        //for outposts
+        if (Engineer_Outpost_Manager.Instance != null)
+            Engineer_Outpost_Manager.Instance.OnNewOutpostTaskAdded += OnNewOutpostTaskAdded;
+
+
     }
 
     private void OnDisable()
@@ -33,6 +49,16 @@ public class Engineer : MonoBehaviour
         // Unsubscribe when disabled/destroyed to avoid memory leaks
         if (Tree_Task_Manager.Instance != null)
             Tree_Task_Manager.Instance.OnNewTaskAdded -= OnNewTaskAddedHandler;
+
+        //for walls
+        if (Engineer_Wall_Manager.Instance != null)
+            Engineer_Wall_Manager.Instance.OnNewWallTaskAdded -= OnNewWallTaskAddedWall;
+
+        //for outposts
+        if (Engineer_Outpost_Manager.Instance != null)
+            Engineer_Outpost_Manager.Instance.OnNewOutpostTaskAdded -= OnNewOutpostTaskAdded;
+
+
     }
 
     private void Start()
@@ -93,14 +119,14 @@ public class Engineer : MonoBehaviour
     {
         while (true)
         {
-            // Removed global task polling since event-driven approach handles it
-
-            if (taskQueue.Count == 0)
+            if (taskQueue.Count == 0 && wallTaskQueue.Count == 0 && outpostTaskQueue.Count == 0)
             {
                 yield return new WaitForSeconds(0.5f);
                 continue;
             }
 
+
+            // Procesare copaci
             while (taskQueue.Count > 0)
             {
                 var (tree, callback) = taskQueue.Dequeue();
@@ -108,22 +134,54 @@ public class Engineer : MonoBehaviour
                 if (tree == null) continue;
 
                 yield return MoveTo(tree);
-
                 animator.SetBool("engineering", true);
-
                 yield return new WaitForSeconds(cutDuration);
-
                 animator.SetBool("engineering", false);
 
                 callback?.Invoke(tree);
-
                 Destroy(tree);
             }
+
+            // Procesare garduri
+            // Procesare garduri
+            while (wallTaskQueue.Count > 0)
+            {
+                var (wallScript, callback) = wallTaskQueue.Dequeue();
+
+                if (wallScript == null) continue;
+
+                yield return MoveTo(wallScript.gameObject);
+                animator.SetBool("engineering", true);
+                yield return new WaitForSeconds(3f); // durata construcției
+                animator.SetBool("engineering", false);
+
+                callback?.Invoke(wallScript.gameObject);
+            }
+
+            // Procesare outposturi
+            while (outpostTaskQueue.Count > 0)
+            {
+                var (outpostScript, callback) = outpostTaskQueue.Dequeue();
+
+                if (outpostScript == null) continue;
+
+                yield return MoveTo(outpostScript.gameObject);
+                animator.SetBool("engineering", true);
+                yield return new WaitForSeconds(4f); // timp de construcție outpost
+                animator.SetBool("engineering", false);
+
+                callback?.Invoke(outpostScript.gameObject);
+                Debug.Log("Engineer started building outpost.");
+
+            }
+
+
 
             yield return MoveTo(basePosition);
             animator.SetBool("running", false);
         }
     }
+
 
     private IEnumerator MoveTo(Vector3 targetPos)
     {
@@ -177,6 +235,56 @@ public class Engineer : MonoBehaviour
     }
 
 
+    //for walls
+    private void OnNewWallTaskAddedWall()
+    {
+        if (Engineer_Wall_Manager.Instance.TryGetWallTask(out var task))
+        {
+            if (!IsWallAlreadyQueued(task.Item1))
+            {
+                wallTaskQueue.Enqueue(task);
+                Debug.Log($"{name} a primit un task de construit gard.");
+            }
+        }
+    }
+
+
+    private bool IsWallAlreadyQueued(MonoBehaviour wall)
+    {
+        foreach (var item in wallTaskQueue)
+        {
+            if (item.wall == wall) return true;
+        }
+        return false;
+    }
+
+    //for outposts
+    private void OnNewOutpostTaskAdded()
+    {
+        if (Engineer_Outpost_Manager.Instance.TryGetOutpostTask(out var task))
+        {
+            if (!IsOutpostAlreadyQueued(task.Item1))
+            {
+                outpostTaskQueue.Enqueue(task);
+                Debug.Log($"{name} a primit un task de construit avanpost.");
+            }
+        }
+        else
+        {
+            Debug.LogWarning("No outpost task found in queue.");
+        }
+
+    }
+
+
+    private bool IsOutpostAlreadyQueued(MonoBehaviour outpost)
+    {
+        foreach (var item in outpostTaskQueue)
+        {
+            if (item.outpost == outpost) return true;
+        }
+        return false;
+    }
 
 
 }

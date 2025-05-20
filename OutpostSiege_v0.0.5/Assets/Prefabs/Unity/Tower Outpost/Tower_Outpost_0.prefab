@@ -236,7 +236,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1699862633
-  m_SortingLayer: 8
+  m_SortingLayer: 9
   m_SortingOrder: 0
   m_Sprite: {fileID: 4917209289006270528, guid: c0049e685ef5ff84ba9ba31f7248380b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -307,8 +307,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d891d91e6a4f01842b0435c2aa3c773c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinPrefab: {fileID: 6664048122384657611, guid: 17b899d8503f9004b81b505650f89c7b, type: 3}
-  paidCoinPrefab: {fileID: 8772392449366757880, guid: 3d51dac5aa699634ea2807f2b89fb0ba, type: 3}
+  coinHolderPrefab: {fileID: 6664048122384657611, guid: 17b899d8503f9004b81b505650f89c7b, type: 3}
+  coinPrefab: {fileID: 8772392449366757880, guid: 3d51dac5aa699634ea2807f2b89fb0ba, type: 3}
   coinSpawnPoints:
   - {fileID: 3554580749428376969}
   - {fileID: 2801458314887261350}
@@ -316,3 +316,4 @@ MonoBehaviour:
   - {fileID: 6292988613396756998}
   - {fileID: 1951161294148232437}
   blockRadius: 4
+  outpostLevel: 0

@@ -857,6 +857,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &643835651
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 643835652}
+  - component: {fileID: 643835653}
+  m_Layer: 0
+  m_Name: EngineerOutpostManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &643835652
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643835651}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2100898866}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &643835653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643835651}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a95cfe341d7ebea4ea89675e7776e9e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &644433553 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1409100620046858639, guid: 1ff4445cda9e5844b8d89434762b6f79, type: 3}
@@ -1227,7 +1271,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1145719959}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37e975f6f04cda742a9979087d7ad264, type: 3}
   m_Name: 
@@ -1508,8 +1552,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32ad32a6f28307e41accc4e765036bd3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCoins: 40
-  startingCoins: 40
+  maxCoins: 100
+  startingCoins: 100
   coinText: {fileID: 1558409005}
 --- !u!114 &1558409005 stripped
 MonoBehaviour:
@@ -1520,6 +1564,50 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1588439700
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1588439701}
+  - component: {fileID: 1588439702}
+  m_Layer: 0
+  m_Name: EngineerWallOutpostManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1588439701
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588439700}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2100898866}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1588439702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1588439700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 338e0404ebb86aa4c8cc731ec80a7f73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1792116027
@@ -2266,8 +2354,8 @@ MonoBehaviour:
   endDistance: 80
   minDistance: 8
   maxDistance: 12
-  towerYPosition: -1
-  wallYPosition: -2.8
+  towerYPosition: -1.218
+  wallYPosition: -2.657
 --- !u!1 &2100898865
 GameObject:
   m_ObjectHideFlags: 0
@@ -2301,6 +2389,8 @@ Transform:
   - {fileID: 1145719960}
   - {fileID: 931955082}
   - {fileID: 2099394053}
+  - {fileID: 1588439701}
+  - {fileID: 643835652}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &577055791596491872
@@ -2361,7 +2451,7 @@ PrefabInstance:
       objectReference: {fileID: 1558409005}
     - target: {fileID: 7056340976196789955, guid: 5da3ac2e52225314da04b6a6d2e9d106, type: 3}
       propertyPath: moveForce
-      value: 12
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7056340976196789955, guid: 5da3ac2e52225314da04b6a6d2e9d106, type: 3}
       propertyPath: startingCoins

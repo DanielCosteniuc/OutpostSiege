@@ -1,37 +1,99 @@
+﻿using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class Lvl0_Wall_Interaction : MonoBehaviour
 {
     [Header("Coin Setup")]
-    public GameObject coinPrefab;             // Prefab for the coin the player can collect
-    public GameObject paidCoinPrefab;         // Prefab shown after coins are paid
-    public List<Transform> coinSpawnPoints;   // Spawn points for coin placement
+    public GameObject coinHolderPrefab;
+    public GameObject coinPrefab;
+    public List<Transform> coinSpawnPoints;
 
     [Header("Tree Blocking Settings")]
-    [SerializeField] private float blockRadius = 5f; // Radius to check for nearby trees
+    [SerializeField] private float blockRadius = 5f;
 
-    private List<GameObject> coinInstances = new();  // List of active coins in the scene
-    private bool isPaid = false;                     // Flag to prevent repeat payments
+    private List<GameObject> coinInstances = new();
+    private bool isPaid = false;
+    private int coinsInserted = 0;
+
+    private Player_Interactions player; // referință la player
+    private TowerWalls_Generation wallGenerator; // trebuie trimisă în prefab
+
+    [Header("Upgrade Settings")]
+    public int wallLevel = 0; // nivelul curent al gardului
+    public int coinsRequired => coinSpawnPoints.Count; // 1 coin per holder
 
     private void Start()
     {
-        // Clear any leftover coin references on start
         coinInstances.Clear();
+        player = GameObject.FindWithTag("Player").GetComponent<Player_Interactions>();
+        wallGenerator = FindObjectOfType<TowerWalls_Generation>(); // presupunem că e unul singur în scenă
     }
+
+    private void Update()
+    {
+        if (!isPaid && coinInstances.Count > 0 && Input.GetKeyDown(KeyCode.Space))
+        {
+            if (player.TrySpendCoin())
+            {
+                Transform holderTransform = coinInstances[coinsInserted].transform;
+                Instantiate(coinPrefab, holderTransform.position, Quaternion.identity, holderTransform);
+
+                coinsInserted++;
+
+                if (coinsInserted >= coinsRequired)
+                {
+                    isPaid = true;
+                    UpgradeWall();
+                }
+            }
+        }
+
+    }
+
+    private void UpgradeWall()
+    {
+        if (Engineer_Wall_Manager.Instance != null)
+        {
+               Engineer_Wall_Manager.Instance.AddWallTask(this, OnWallConstructed);
+        }
+        else
+        {
+            Debug.LogWarning("Wall_Task_Manager lipsă.");
+        }
+    }
+
+    private void OnWallConstructed(GameObject wallObject)
+    {
+        if (wallGenerator == null || wallLevel + 1 >= wallGenerator.WallPrefabs.Count)
+        {
+            Debug.LogWarning("Nu există gard de nivel superior.");
+            return;
+        }
+
+        Vector3 currentPos = transform.position;
+        Quaternion rotation = transform.rotation;
+        Transform parent = transform.parent;
+
+        GameObject newWall = Instantiate(
+            wallGenerator.WallPrefabs[wallLevel + 1],
+            currentPos,
+            rotation,
+            parent
+        );
+
+        Destroy(gameObject);
+    }
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // Trigger interaction only when player enters and coins haven't been paid
         if (other.CompareTag("Player") && !isPaid && coinInstances.Count == 0)
         {
-            // Don't spawn coins if trees are nearby
             if (AreTreesNearby()) return;
 
-            // Spawn coins at designated spawn points
             foreach (Transform spawnPoint in coinSpawnPoints)
             {
-                var coin = Instantiate(coinPrefab, spawnPoint.position, Quaternion.identity, transform);
+                var coin = Instantiate(coinHolderPrefab, spawnPoint.position, Quaternion.identity, transform);
                 coinInstances.Add(coin);
             }
         }
@@ -39,18 +101,21 @@ public class Lvl0_Wall_Interaction : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        // Remove unclaimed coins when the player leaves
         if (other.CompareTag("Player") && !isPaid)
         {
+            player.ReturnCoinsToPlayer(coinsInserted); // Returnează banii nefolosiți
+
             foreach (var coin in coinInstances)
             {
                 Destroy(coin);
             }
+
             coinInstances.Clear();
+            coinsInserted = 0;
         }
+
     }
 
-    // Checks for trees within a certain radius
     private bool AreTreesNearby()
     {
         Collider2D[] nearbyObjects = Physics2D.OverlapCircleAll(transform.position, blockRadius);
@@ -62,7 +127,6 @@ public class Lvl0_Wall_Interaction : MonoBehaviour
     }
 
 #if UNITY_EDITOR
-    // Visualize blocking radius in Scene view for debugging
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;

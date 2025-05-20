@@ -4,8 +4,11 @@ using UnityEngine;
 public class TowerWalls_Generation : MonoBehaviour
 {
     [Header("Towers and Walls")]
-    [SerializeField] private List<GameObject> towerPrefabs;  // Lista pentru towers
+    [SerializeField] private List<GameObject> towerPrefabs;  // Lista pentru towers/outposts
     [SerializeField] private List<GameObject> wallPrefabs;   // Lista pentru walls
+    public List<GameObject> TowerPrefabs => towerPrefabs;
+
+    public List<GameObject> WallPrefabs => wallPrefabs; // Getter public
 
     [Header("Distances")]
     [SerializeField] private float startDistance = 15f;

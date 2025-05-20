@@ -189,8 +189,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17a4404a2cd4c8f448e0e9e239a4d5db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
+  moveSpeed: 20
   stopDistance: 0.2
   cutDuration: 2
-  minCoins: 1
-  maxCoins: 2
