@@ -1,10 +1,11 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class TowerWalls_Generation : MonoBehaviour
 {
-    [Header("Outposts and Walls")]
-    [SerializeField] private List<GameObject> prefabs;
+    [Header("Towers and Walls")]
+    [SerializeField] private List<GameObject> towerPrefabs;  // Lista pentru towers
+    [SerializeField] private List<GameObject> wallPrefabs;   // Lista pentru walls
 
     [Header("Distances")]
     [SerializeField] private float startDistance = 15f;
@@ -14,8 +15,9 @@ public class TowerWalls_Generation : MonoBehaviour
     [SerializeField] private float minDistance = 8f;
     [SerializeField] private float maxDistance = 12f;
 
-    [Header("OY coordinates for each prefab")]
-    [SerializeField] private List<float> yPositions;  // List of Y positions for each prefab
+    [Header("OY coordinates")]
+    [SerializeField] private float towerYPosition = -1.2f;
+    [SerializeField] private float wallYPosition = -2.720f;
 
     void Start()
     {
@@ -24,61 +26,47 @@ public class TowerWalls_Generation : MonoBehaviour
 
     private void PlacePrefabs()
     {
-        if (prefabs.Count != yPositions.Count || prefabs.Count < 2)
+        // Verificăm dacă există cel puțin un element în ambele liste
+        if (towerPrefabs.Count == 0 || wallPrefabs.Count == 0)
         {
-            Debug.LogError("The number of prefabs and Y coordinates do not match.");
+            Debug.LogError("List is empty: Please assign at least one tower and one wall prefab.");
             return;
         }
 
-        // Place objects on the right side (direction 1)
+        // Plasăm pe dreapta (direction 1)
         PlacePrefabsInDirection(1);
 
-        // Place objects on the left side (direction -1)
+        // Plasăm pe stânga (direction -1)
         PlacePrefabsInDirection(-1);
     }
 
     private void PlacePrefabsInDirection(int direction)
     {
-        float currentPosition = (direction > 0) ? startDistance : -startDistance;  // Determine the starting position on the X axis
-        GameObject lastPrefab = null;
-        int samePrefabCount = 0;
+        float currentPosition = (direction > 0) ? startDistance : -startDistance;
+        float endPos = (direction > 0) ? endDistance : -endDistance;
 
-        // Continue placing until reaching the limit
-        float endPos = (direction > 0) ? endDistance : -endDistance;  // Determine the limit based on direction
+        bool placeTowerNext = true; // Alternează între tower și wall
 
         while ((direction > 0 && currentPosition <= endPos) || (direction < 0 && currentPosition >= endPos))
         {
-            // Choose a random prefab
-            GameObject chosenPrefab = prefabs[Random.Range(0, prefabs.Count)];
+            GameObject prefabToPlace;
+            float yPos;
 
-            // Check if the same prefab is chosen twice in a row
-            if (chosenPrefab == lastPrefab)
+            if (placeTowerNext)
             {
-                samePrefabCount++;
+                prefabToPlace = towerPrefabs[0];  // Doar primul tower
+                yPos = towerYPosition;
             }
             else
             {
-                samePrefabCount = 1; // Reset to 1 if not the same
+                prefabToPlace = wallPrefabs[0];   // Doar primul wall
+                yPos = wallYPosition;
             }
 
-            // If there are already two identical objects, change the prefab
-            if (samePrefabCount > 2)
-            {
-                continue;
-            }
+            Instantiate(prefabToPlace, new Vector3(currentPosition, yPos, 0f), Quaternion.identity, transform);
 
-            // Find the index of the chosen prefab to set the Y value
-            int prefabIndex = prefabs.IndexOf(chosenPrefab);
-            float yPosition = yPositions[prefabIndex];  // Use the Y coordinate corresponding to the chosen prefab
-
-            // Instantiate the prefab at the current X position and specific Y coordinates
-            Instantiate(chosenPrefab, new Vector3(currentPosition, yPosition, 0f), Quaternion.identity, transform);
-
-            // Move to the next random position on the X axis
-            currentPosition += Random.Range(minDistance, maxDistance) * direction;  // Multiply by direction to control direction
-
-            // Keep track of the last placed prefab
-            lastPrefab = chosenPrefab;
+            currentPosition += Random.Range(minDistance, maxDistance) * direction;
+            placeTowerNext = !placeTowerNext; // Alternăm
         }
     }
 }
