@@ -78,7 +78,7 @@ public class Infantry_Enemy : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, detectionRadius);
         foreach (var hit in hits)
         {
-            if (hit.CompareTag("Allied"))
+            if (hit.CompareTag("Allied") || hit.CompareTag("Wall"))
             {
                 return hit.gameObject;
             }

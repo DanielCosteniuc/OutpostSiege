@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Lvl1_Infantry_Tent : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class Lvl1_Infantry_Tent : MonoBehaviour
     [SerializeField] private float minOffsetX = -3f;
     [SerializeField] private float maxOffsetX = 3f;
 
+     private Infantry_Manager infantryManager;
+    
+
     private GameObject[] coinHolders;
     private GameObject[] coinVisuals;
 
@@ -23,6 +27,20 @@ public class Lvl1_Infantry_Tent : MonoBehaviour
     private bool infantrySpawned = false;
 
     private Player_Interactions player;
+
+    
+
+
+    private IEnumerator Start()
+    {
+        while (Infantry_Manager.Instance == null)
+        {
+            yield return null; // așteaptă un frame
+        }
+
+        Debug.Log("[Lvl1_Infantry_Tent] Infantry_Manager singleton instance found after waiting.");
+    }
+
 
     private void Update()
     {
@@ -85,23 +103,19 @@ public class Lvl1_Infantry_Tent : MonoBehaviour
 
     private void SpawnInfantry()
     {
-        if (infantryPrefab == null || infantrySpawnPoint == null)
+        if (Infantry_Manager.Instance == null)
         {
-            Debug.LogWarning("Infantry prefab or spawn point is not assigned.");
+            Debug.LogWarning("[Lvl1_Infantry_Tent] Infantry_Manager singleton instance is null!");
             return;
         }
 
-        Vector3 randomOffset = new Vector3(Random.Range(minOffsetX, maxOffsetX), 0f, 0f);
-        GameObject infantry = Instantiate(infantryPrefab, infantrySpawnPoint.position + randomOffset, Quaternion.identity);
-
-        if (player != null && infantry.TryGetComponent(out Infantry infantryComponent))
-        {
-            player.AddInfantry(infantryComponent);
-        }
+        Infantry_Manager.Instance.SpawnInfantry();
 
         ResetCoinVisuals();
-        ResetCoinSystem(); // 👈 Adaugă această linie pentru reset
+        ResetCoinSystem();
     }
+
+
 
     private void ResetCoinSystem()
     {

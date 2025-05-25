@@ -1,49 +1,76 @@
+﻿using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(SpriteRenderer))]
 public class Infantry : MonoBehaviour
 {
+    public enum Direction { Left, Right }
+    public Direction TargetDirection { get; private set; }
+
+    [Header("Movement Settings")]
+    [SerializeField] private float minMoveSpeed = 2f;
+    [SerializeField] private float maxMoveSpeed = 3f;
+    private float moveSpeed;
+
+
     [Header("Combat Settings")]
     [SerializeField] private float detectionRadius = 5f;
     [SerializeField] private float attackInterval = 2f;
     [SerializeField] private int health = 20;
     [SerializeField] private Weapon weapon;
 
-    [Header("Gizmo OY Offset")]
+    [Header("Gizmo Y Offset")]
     [SerializeField] private float gizmosYOffset = 1f;
 
     [Header("Visual Effects")]
     [SerializeField] private float flashDuration = 0.1f;
     [SerializeField] private float fadeDuration = 0.5f;
-    [SerializeField] private Color hitColor = Color.white; // FF8080 will be assigned in Unity
+    [SerializeField] private Color hitColor = Color.white;
 
     private Animator animator;
     private float lastAttackTime;
     private GameObject targetEnemy;
     private bool facingRight = true;
-    
-    // Visual effects
+
     private SpriteRenderer sr;
     private Color originalColor;
     private Collider2D col;
 
-    void Start()
+    private Vector3 moveTarget;
+    private bool isMoving = false;
+    private bool isEngagingEnemy = false;
+
+    public bool HasMoved => isMoving;
+    public bool IsFacingRight() => facingRight;
+    public bool IsFacingLeft() => !facingRight;
+
+    public bool IsEngagingEnemy => isEngagingEnemy;
+    void Awake()
     {
         animator = GetComponent<Animator>();
-        lastAttackTime = -attackInterval;
         col = GetComponent<Collider2D>();
-
         sr = GetComponent<SpriteRenderer>();
-        originalColor = sr.color;    
+        originalColor = sr.color;
+
+        // Setează moveSpeed random între min și max
+        moveSpeed = Random.Range(minMoveSpeed, maxMoveSpeed);
     }
+
+
+
 
     void Update()
     {
+        // 1. Caută inamic
         targetEnemy = FindNearestEnemy();
 
         if (targetEnemy != null)
         {
-            Flip(targetEnemy.transform.position); // Face the enemy
+            isEngagingEnemy = true;
+            Flip(targetEnemy.transform.position);
+            animator.ResetTrigger("running");
 
             if (Time.time >= lastAttackTime + attackInterval)
             {
@@ -53,9 +80,51 @@ public class Infantry : MonoBehaviour
         }
         else
         {
+            if (isEngagingEnemy)
+            {
+                isEngagingEnemy = false; // inamic eliminat
+                if (isMoving)
+                {
+                    animator.SetTrigger("running"); // reia animatia de alergare
+                }
+            }
+
             animator.ResetTrigger("shooting");
         }
+
+        // 2. Mișcare doar dacă nu suntem în luptă
+        if (isMoving && !isEngagingEnemy)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, moveTarget, moveSpeed * Time.deltaTime);
+            animator.SetTrigger("running");
+
+            float distance = Vector3.Distance(transform.position, moveTarget);
+            if (distance < 1.5f)
+            {
+                Debug.Log("Infanteria a ajuns la destinatie");
+                isMoving = false;
+                animator.ResetTrigger("running");
+            }
+        }
     }
+
+
+    public void MoveTo(Vector3 position)
+    {
+        moveTarget = position;
+        Debug.Log($"New target set at: {moveTarget}"); // Verifică unde se îndreaptă
+        //Debug.Log($"[Infantry] Moving to {position}");
+        isMoving = true;
+        TargetDirection = position.x < transform.position.x ? Direction.Left : Direction.Right;
+        Flip(position);
+        animator.ResetTrigger("running");
+    }
+
+    public void SetTargetDirection(Direction direction)
+    {
+        TargetDirection = direction;
+    }
+
 
     GameObject FindNearestEnemy()
     {
@@ -70,7 +139,7 @@ public class Infantry : MonoBehaviour
         return null;
     }
 
-    // This is called from an Animation Event at the right shooting frame
+    // Apelat din Animation Event
     public void Fire()
     {
         if (targetEnemy != null)
@@ -83,13 +152,14 @@ public class Infantry : MonoBehaviour
     {
         health -= damage;
         StartCoroutine(FlashWhite());
+
         if (health <= 0)
         {
             Die();
         }
     }
 
-    private System.Collections.IEnumerator FlashWhite()
+    private IEnumerator FlashWhite()
     {
         sr.color = hitColor;
         yield return new WaitForSeconds(flashDuration);
@@ -98,11 +168,18 @@ public class Infantry : MonoBehaviour
 
     private void Die()
     {
+        // Informează managerul de moarte
+        Infantry_Manager manager = FindObjectOfType<Infantry_Manager>();
+        if (manager != null)
+        {
+            manager.OnInfantryDeath(this);
+        }
+
         if (col != null) col.enabled = false;
         StartCoroutine(FadeAndDestroy());
     }
 
-    private System.Collections.IEnumerator FadeAndDestroy()
+    private IEnumerator FadeAndDestroy()
     {
         float timer = 0f;
         Color startColor = sr.color;
@@ -119,7 +196,20 @@ public class Infantry : MonoBehaviour
         Destroy(gameObject);
     }
 
-    // Shooting range gizmos 
+    private void Flip(Vector3 targetPosition)
+    {
+        if (targetPosition.x < transform.position.x && facingRight)
+        {
+            transform.Rotate(0f, 180f, 0f);
+            facingRight = false;
+        }
+        else if (targetPosition.x > transform.position.x && !facingRight)
+        {
+            transform.Rotate(0f, 180f, 0f);
+            facingRight = true;
+        }
+    }
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
@@ -127,19 +217,11 @@ public class Infantry : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position + posYOffset, detectionRadius);
     }
 
-    private void Flip(Vector3 targetPosition)
+    public void ForceTurnAround()
     {
-        if (targetPosition.x < transform.position.x && facingRight)
-        {
-            // Enemy is on the left, but we're facing right � rotate to face left
-            transform.Rotate(0f, 180f, 0f);
-            facingRight = false;
-        }
-        else if (targetPosition.x > transform.position.x && !facingRight)
-        {
-            // Enemy is on the right, but we're facing left � rotate to face right
-            transform.Rotate(0f, 180f, 0f);
-            facingRight = true;
-        }
+        transform.Rotate(0f, 180f, 0f);
+        facingRight = !facingRight;
+        Debug.Log("Infanteria intoarsa 180 grade");
     }
+
 }
