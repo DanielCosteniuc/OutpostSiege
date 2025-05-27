@@ -195,6 +195,11 @@ public class Infantry : MonoBehaviour
         sr.color = new Color(startColor.r, startColor.g, startColor.b, 0f);
         Destroy(gameObject);
     }
+    public bool IsAtTarget()
+    {
+        return Vector3.Distance(transform.position, moveTarget) < 0.1f;
+    }
+
 
     private void Flip(Vector3 targetPosition)
     {

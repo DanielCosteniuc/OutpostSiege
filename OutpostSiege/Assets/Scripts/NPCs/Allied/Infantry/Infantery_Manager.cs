@@ -8,6 +8,11 @@ public class Infantry_Manager : MonoBehaviour
     [SerializeField] private Wall_Manager wallManager;
     [SerializeField] private GameObject spawnPoint;
 
+    [Header("Engineer Spawn Range")]
+    [SerializeField] private float minOffsetX = -3f;
+    [SerializeField] private float maxOffsetX = 3f;
+    [SerializeField] private float offsetY = 3.2f;
+
     //private readonly List<Infantry> activeInfantry = new();
     private readonly List<Infantry> leftInfantry = new();
     private readonly List<Infantry> rightInfantry = new();
@@ -37,7 +42,7 @@ public class Infantry_Manager : MonoBehaviour
             return;
         }
 
-        Vector3 spawnPos = spawnPoint.transform.position + new Vector3(Random.Range(-3f, 3f), 0f, 0f);
+        Vector3 spawnPos = spawnPoint.transform.position + new Vector3(Random.Range(minOffsetX, maxOffsetX), offsetY, 0f);
         GameObject go = Instantiate(infantryPrefab, spawnPos, Quaternion.identity);
         Infantry infantry = go.GetComponent<Infantry>();
 
@@ -70,6 +75,7 @@ public class Infantry_Manager : MonoBehaviour
             infantry.MoveTo(targetPos);
         }
         
+        
     }
 
     public void OnInfantryDeath(Infantry infantry)
@@ -87,39 +93,51 @@ public class Infantry_Manager : MonoBehaviour
         GameObject leftWall = wallManager.GetLastLeftWall();
         GameObject rightWall = wallManager.GetLastRightWall();
 
-        //Debug.Log($"[Infantry_Manager] Reassigning infantry: LeftWall={(leftWall != null ? leftWall.name : "null")}, RightWall={(rightWall != null ? rightWall.name : "null")}");
+
+        Debug.Log($"[Infantry_Manager] Reassigning infantry: LeftWall={(leftWall != null ? leftWall.name : "null")}, RightWall={(rightWall != null ? rightWall.name : "null")}");
 
         foreach (Infantry infantry in leftInfantry)
         {
-            if (!infantry.HasMoved)
+            if (!infantry.HasMoved && leftWall != null)
             {
-                Debug.Log($"[Infantry_Manager] Reassigning idle LEFT infantry: {infantry.name}");
+                Vector3 baseTarget = wallManager.GetAdjustedWallPosition(leftWall);
+                float spawnX = spawnPoint.transform.position.x;
+                float currentX = infantry.transform.position.x;
+                float targetX = baseTarget.x;
 
-                if (leftWall != null)
+                // Se apropie de spawn? (merge spre centru)
+                if (Mathf.Abs(targetX - spawnX) < Mathf.Abs(currentX - spawnX))
                 {
-                    Vector3 pos = wallManager.GetAdjustedWallPosition(leftWall) + new Vector3(wallManager.PositionOffset, 0f, 0f);
-                    //Debug.Log($"[Infantry_Manager] → Moving LEFT infantry to wall at: {pos}");
-                    infantry.MoveTo(pos);
+                    targetX += 2f;
                 }
-                
+
+                Vector3 finalTarget = new Vector3(targetX, baseTarget.y, baseTarget.z);
+                infantry.MoveTo(finalTarget);
             }
+            
         }
 
         foreach (Infantry infantry in rightInfantry)
         {
-            if (!infantry.HasMoved)
+            if (!infantry.HasMoved && rightWall != null)
             {
-                Debug.Log($"[Infantry_Manager] Reassigning idle RIGHT infantry: {infantry.name}");
+                Vector3 baseTarget = wallManager.GetAdjustedWallPosition(rightWall);
+                float spawnX = spawnPoint.transform.position.x;
+                float currentX = infantry.transform.position.x;
+                float targetX = baseTarget.x;
 
-                if (rightWall != null)
+                if (Mathf.Abs(targetX - spawnX) < Mathf.Abs(currentX - spawnX))
                 {
-                    Vector3 pos = wallManager.GetAdjustedWallPosition(rightWall) - new Vector3(wallManager.PositionOffset, 0f, 0f);
-                    //Debug.Log($"[Infantry_Manager] → Moving RIGHT infantry to wall at: {pos}");
-                    infantry.MoveTo(pos);
+                    targetX -= 2f;
                 }
-                
+
+                Vector3 finalTarget = new Vector3(targetX, baseTarget.y, baseTarget.z);
+                infantry.MoveTo(finalTarget);
             }
+            
         }
+
+
     }
 
 
@@ -163,6 +181,45 @@ public class Infantry_Manager : MonoBehaviour
         }
     }
 
+    public void ReassignMovingInfantryToWalls()
+    {
+        GameObject leftWall = wallManager.GetLastLeftWall();
+        GameObject rightWall = wallManager.GetLastRightWall();
+
+        foreach (Infantry infantry in leftInfantry)
+        {
+            if (infantry.HasMoved && !infantry.IsAtTarget()) // Se află în mișcare
+            {
+                Vector3 baseTarget = wallManager.GetAdjustedWallPosition(leftWall);
+                float spawnX = spawnPoint.transform.position.x;
+                float currentX = infantry.transform.position.x;
+                float targetX = baseTarget.x;
+
+                if (Mathf.Abs(targetX - spawnX) < Mathf.Abs(currentX - spawnX))
+                    targetX += 2f;
+
+                Vector3 finalTarget = new Vector3(targetX, baseTarget.y, baseTarget.z);
+                infantry.MoveTo(finalTarget);
+            }
+        }
+
+        foreach (Infantry infantry in rightInfantry)
+        {
+            if (infantry.HasMoved && !infantry.IsAtTarget())
+            {
+                Vector3 baseTarget = wallManager.GetAdjustedWallPosition(rightWall);
+                float spawnX = spawnPoint.transform.position.x;
+                float currentX = infantry.transform.position.x;
+                float targetX = baseTarget.x;
+
+                if (Mathf.Abs(targetX - spawnX) < Mathf.Abs(currentX - spawnX))
+                    targetX -= 2f;
+
+                Vector3 finalTarget = new Vector3(targetX, baseTarget.y, baseTarget.z);
+                infantry.MoveTo(finalTarget);
+            }
+        }
+    }
 
     private Vector3 RandomOffset() => new Vector3(Random.Range(-0.1f, 0.1f), 0f, 0f);
 }

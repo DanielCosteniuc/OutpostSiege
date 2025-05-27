@@ -75,7 +75,13 @@ public class Wall_Manager : MonoBehaviour
 
         if (wallChanged && Infantry_Manager.Instance != null)
         {
-            //Debug.Log("[Wall_Manager] Wall changed, assigning idle infantry...");
+            Infantry_Manager.Instance.AssignIdleInfantryToNewWall();
+            Infantry_Manager.Instance.ReassignMovingInfantryToWalls(); // Actualizează cei deja în mișcare
+        }
+
+        if (!(leftWalls!=null) || !(rightWalls != null))
+        {
+            Debug.Log("[Wall_Manager] Wall null+++++");
             Infantry_Manager.Instance.AssignIdleInfantryToNewWall();
         }
     }

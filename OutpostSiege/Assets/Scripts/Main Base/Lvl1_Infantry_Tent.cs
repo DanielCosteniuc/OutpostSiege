@@ -12,9 +12,7 @@ public class Lvl1_Infantry_Tent : MonoBehaviour
     [SerializeField] private Transform[] coinSpawnPoints;
     [SerializeField] private Transform infantrySpawnPoint;
 
-    [Header("Infantry Spawn Range")]
-    [SerializeField] private float minOffsetX = -3f;
-    [SerializeField] private float maxOffsetX = 3f;
+    
 
      private Infantry_Manager infantryManager;
     

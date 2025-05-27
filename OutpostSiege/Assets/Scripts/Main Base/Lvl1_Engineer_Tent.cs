@@ -14,6 +14,7 @@ public class Lvl1_Engineer_Tent : MonoBehaviour
     [Header("Engineer Spawn Range")]
     [SerializeField] private float minOffsetX = -3f;
     [SerializeField] private float maxOffsetX = 3f;
+    [SerializeField] private float offsetY = 3f;
 
     private GameObject[] coinHolders;
     private GameObject[] coinVisuals;
@@ -91,7 +92,7 @@ public class Lvl1_Engineer_Tent : MonoBehaviour
             return;
         }
 
-        Vector3 randomOffset = new Vector3(Random.Range(minOffsetX, maxOffsetX), 0f, 0f);
+        Vector3 randomOffset = new Vector3(Random.Range(minOffsetX, maxOffsetX), offsetY, 0f);
         GameObject engineer = Instantiate(engineerPrefab, engineerSpawnPoint.position + randomOffset, Quaternion.identity);
 
         if (player != null && engineer.TryGetComponent(out Engineer engineerComponent))

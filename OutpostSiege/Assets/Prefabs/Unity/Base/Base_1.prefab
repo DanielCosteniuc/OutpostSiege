@@ -133,8 +133,9 @@ MonoBehaviour:
   - {fileID: 5652005587637730747}
   - {fileID: 4143166762256795657}
   engineerSpawnPoint: {fileID: 4330598015314308249}
-  minOffsetX: -3
+  minOffsetX: 6
   maxOffsetX: 3
+  offsetY: -1
 --- !u!1 &2334860205693095662
 GameObject:
   m_ObjectHideFlags: 0
@@ -527,5 +528,3 @@ MonoBehaviour:
   - {fileID: 3363587513648890614}
   - {fileID: 5522811775086227356}
   infantrySpawnPoint: {fileID: 744462579647598278}
-  minOffsetX: -3
-  maxOffsetX: 3
