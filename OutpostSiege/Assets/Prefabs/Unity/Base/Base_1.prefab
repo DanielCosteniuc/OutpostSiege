@@ -135,7 +135,7 @@ MonoBehaviour:
   engineerSpawnPoint: {fileID: 4330598015314308249}
   minOffsetX: 6
   maxOffsetX: 3
-  offsetY: -1
+  offsetY: -0.8
 --- !u!1 &2334860205693095662
 GameObject:
   m_ObjectHideFlags: 0

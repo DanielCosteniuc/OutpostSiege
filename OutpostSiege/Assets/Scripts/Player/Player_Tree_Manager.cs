@@ -39,7 +39,7 @@ public class Player_TreeManager : MonoBehaviour
             }
         }
 
-        Debug.Log("Niciun copac valid suprapus.");
+        //Debug.Log("Niciun copac valid suprapus.");
     }
 
     /// <summary>

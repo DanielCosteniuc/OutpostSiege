@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 public class Lvl1_Wall_Interaction : MonoBehaviour
@@ -17,6 +17,7 @@ public class Lvl1_Wall_Interaction : MonoBehaviour
 
     private Player_Interactions player;
     private TowerWalls_Generation wallGenerator;
+    private USV_Interactions usv; // Referință la USV_Interactions
 
     [Header("Upgrade Settings")]
     public int wallLevel = 1;
@@ -27,24 +28,27 @@ public class Lvl1_Wall_Interaction : MonoBehaviour
         coinInstances.Clear();
         player = GameObject.FindWithTag("Player").GetComponent<Player_Interactions>();
         wallGenerator = FindFirstObjectByType<TowerWalls_Generation>();
+        usv = FindFirstObjectByType<USV_Interactions>(); // Obține referința la USV
     }
 
     private void Update()
     {
-        if (!isPaid && coinInstances.Count > 0 && Input.GetKeyDown(KeyCode.Space))
+        if (isPaid || coinInstances.Count == 0 || !Input.GetKeyDown(KeyCode.Space))
+            return;
+
+        if (usv == null || !usv.IsPaid()) return; // Blochează plasarea banilor dacă nu e plătit USV-ul
+
+        if (player.TrySpendCoin())
         {
-            if (player.TrySpendCoin())
+            Transform holderTransform = coinInstances[coinsInserted].transform;
+            Instantiate(coinPrefab, holderTransform.position, Quaternion.identity, holderTransform);
+
+            coinsInserted++;
+
+            if (coinsInserted >= coinsRequired)
             {
-                Transform holderTransform = coinInstances[coinsInserted].transform;
-                Instantiate(coinPrefab, holderTransform.position, Quaternion.identity, holderTransform);
-
-                coinsInserted++;
-
-                if (coinsInserted >= coinsRequired)
-                {
-                    isPaid = true;
-                    UpgradeWall();
-                }
+                isPaid = true;
+                UpgradeWall();
             }
         }
     }
@@ -57,7 +61,7 @@ public class Lvl1_Wall_Interaction : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Wall_Task_Manager lips�.");
+            Debug.LogWarning("Wall_Task_Manager lipsă.");
         }
     }
 
@@ -65,7 +69,7 @@ public class Lvl1_Wall_Interaction : MonoBehaviour
     {
         if (wallGenerator == null || wallLevel + 1 >= wallGenerator.WallPrefabs.Count)
         {
-            Debug.LogWarning("Nu exist� gard de nivel superior.");
+            Debug.LogWarning("Nu există gard de nivel superior.");
             return;
         }
 
@@ -85,15 +89,16 @@ public class Lvl1_Wall_Interaction : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && !isPaid && coinInstances.Count == 0)
-        {
-            if (AreTreesNearby()) return;
+        if (!other.CompareTag("Player") || isPaid || coinInstances.Count > 0)
+            return;
 
-            foreach (Transform spawnPoint in coinSpawnPoints)
-            {
-                var coin = Instantiate(coinHolderPrefab, spawnPoint.position, Quaternion.identity, transform);
-                coinInstances.Add(coin);
-            }
+        if (AreTreesNearby()) return;
+        if (usv == null || !usv.IsPaid()) return; // Nu afișa coin holders dacă USV-ul nu e plătit
+
+        foreach (Transform spawnPoint in coinSpawnPoints)
+        {
+            var coin = Instantiate(coinHolderPrefab, spawnPoint.position, Quaternion.identity, transform);
+            coinInstances.Add(coin);
         }
     }
 
@@ -115,7 +120,6 @@ public class Lvl1_Wall_Interaction : MonoBehaviour
         }
         else
         {
-            // New behavior: remove coin holders when paid
             foreach (var coin in coinInstances)
             {
                 Destroy(coin);

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class Lvl0_Outpost_Interaction : MonoBehaviour
@@ -16,23 +16,29 @@ public class Lvl0_Outpost_Interaction : MonoBehaviour
     private int coinsInserted = 0;
 
     private Player_Interactions player;
-    private TowerWalls_Generation outpostGenerator; 
+    private TowerWalls_Generation outpostGenerator;
 
     [Header("Upgrade Settings")]
     public int outpostLevel = 0;
     public int coinsRequired => coinSpawnPoints.Count;
 
+    // Referință către USV
+    private USV_Interactions usv;
+
     private void Start()
     {
         coinInstances.Clear();
         player = GameObject.FindWithTag("Player").GetComponent<Player_Interactions>();
-        outpostGenerator = FindFirstObjectByType< TowerWalls_Generation>();
+        outpostGenerator = FindFirstObjectByType<TowerWalls_Generation>();
+        usv = FindFirstObjectByType<USV_Interactions>();
     }
 
     private void Update()
     {
         if (!isPaid && coinInstances.Count > 0 && Input.GetKeyDown(KeyCode.Space))
         {
+            if (usv == null || !usv.IsPaid()) return; // Nu permite plată fără USV
+
             if (player.TrySpendCoin())
             {
                 Transform holderTransform = coinInstances[coinsInserted].transform;
@@ -67,7 +73,7 @@ public class Lvl0_Outpost_Interaction : MonoBehaviour
     {
         if (outpostGenerator == null || outpostLevel + 1 >= outpostGenerator.TowerPrefabs.Count)
         {
-            Debug.LogWarning("Nu exist� avanpost de nivel superior.");
+            Debug.LogWarning("Nu există avanpost de nivel superior.");
             return;
         }
 
@@ -82,7 +88,6 @@ public class Lvl0_Outpost_Interaction : MonoBehaviour
             parent
         );
 
-
         Destroy(gameObject);
     }
 
@@ -90,6 +95,7 @@ public class Lvl0_Outpost_Interaction : MonoBehaviour
     {
         if (other.CompareTag("Player") && !isPaid && coinInstances.Count == 0)
         {
+            if (usv == null || !usv.IsPaid()) return; // Nu arătăm holders dacă USV nu e plătit
             if (AreTreesNearby()) return;
 
             foreach (Transform spawnPoint in coinSpawnPoints)
@@ -118,7 +124,6 @@ public class Lvl0_Outpost_Interaction : MonoBehaviour
         }
         else
         {
-            // New behavior: remove coin holders when paid
             foreach (var coin in coinInstances)
             {
                 Destroy(coin);
@@ -127,7 +132,6 @@ public class Lvl0_Outpost_Interaction : MonoBehaviour
             coinInstances.Clear();
         }
     }
-
 
     private bool AreTreesNearby()
     {

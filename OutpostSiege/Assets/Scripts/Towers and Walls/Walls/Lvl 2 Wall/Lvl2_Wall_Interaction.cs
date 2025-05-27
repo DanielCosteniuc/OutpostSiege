@@ -1,4 +1,4 @@
-using UnityEngine;
+Ôªøusing UnityEngine;
 using System.Collections.Generic;
 
 public class Lvl2_Wall_Interaction : MonoBehaviour
@@ -57,7 +57,7 @@ public class Lvl2_Wall_Interaction : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Wall_Task_Manager lips„.");
+            Debug.LogWarning("Wall_Task_Manager lips√£.");
         }
     }
 
@@ -65,7 +65,7 @@ public class Lvl2_Wall_Interaction : MonoBehaviour
     {
         if (wallGenerator == null || wallLevel + 1 >= wallGenerator.WallPrefabs.Count)
         {
-            Debug.LogWarning("Nu exist„ gard de nivel superior.");
+            Debug.LogWarning("Nu exist√£ gard de nivel superior.");
             return;
         }
 
