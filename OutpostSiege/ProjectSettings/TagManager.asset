@@ -8,6 +8,8 @@ TagManager:
   - Allied
   - Enemy
   - Wall
+  - Engineer
+  - Base
   layers:
   - Default
   - TransparentFX
@@ -21,8 +23,8 @@ TagManager:
   - Trees
   - Base
   - Walls
-  - 
-  - 
+  - Engineers
+  - Limits
   - 
   - 
   - 
@@ -89,6 +91,9 @@ TagManager:
     locked: 0
   - name: BUFFER
     uniqueID: 3768255447
+    locked: 0
+  - name: UI
+    uniqueID: 1369361983
     locked: 0
   m_RenderingLayers:
   - Default

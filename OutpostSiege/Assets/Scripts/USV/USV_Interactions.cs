@@ -10,7 +10,7 @@ public class USV_Interactions : MonoBehaviour
     public List<Transform> coinSpawnPoints;
 
     private List<GameObject> coinInstances = new();
-    private bool isPaid = false;
+    [HideInInspector] public bool isPaidUSV;
     private int coinsInserted = 0;
 
     [Header("Tree Blocking Settings")]
@@ -21,17 +21,23 @@ public class USV_Interactions : MonoBehaviour
     [Header("Player")]
     private Player_Interactions player;
 
+    [Header("Dialogue")]
+    [SerializeField] private Dialogue dialogueToTrigger;
+    private DialogueManager dialogueManager;
+
     public int CoinsRequired => coinSpawnPoints.Count;
 
     private void Start()
     {
         coinInstances.Clear();
         player = GameObject.FindWithTag("Player").GetComponent<Player_Interactions>();
+        dialogueManager = FindFirstObjectByType<DialogueManager>();
+        isPaidUSV = false;
     }
 
     private void Update()
     {
-        if (!isPaid && coinInstances.Count > 0 && Input.GetKeyDown(KeyCode.Space))
+        if (!isPaidUSV && coinInstances.Count > 0 && Input.GetKeyDown(KeyCode.Space))
         {
             if (player != null && player.TrySpendCoin())
             {
@@ -42,7 +48,7 @@ public class USV_Interactions : MonoBehaviour
 
                 if (coinsInserted >= CoinsRequired)
                 {
-                    isPaid = true;
+                    isPaidUSV = true;
                     OnPaymentCompleted(); // Ai toate monedele, execută acțiunea
                 }
             }
@@ -52,14 +58,23 @@ public class USV_Interactions : MonoBehaviour
     private void OnPaymentCompleted()
     {
         Debug.Log("[USV_Interactions] Toate monedele au fost plasate, ai deblocat USV-ul!");
-        // Aici poți adăuga efecte, sunete, activare altor obiecte etc.
+
+        // Trigger dialogue if references are set
+        if (dialogueManager != null && dialogueToTrigger != null)
+        {
+            dialogueManager.StartDialogue(dialogueToTrigger);
+        }
+        else
+        {
+            Debug.LogWarning("DialogueManager or Dialogue reference missing on USV_Interactions.");
+        }
     }
 
-    public bool IsPaid() => isPaid;
+    public bool IsPaid() => isPaidUSV;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (!other.CompareTag("Player") || isPaid || IsTreeNearby() || coinInstances.Count > 0)
+        if (!other.CompareTag("Player") || isPaidUSV || IsTreeNearby() || coinInstances.Count > 0)
             return;
 
         foreach (Transform spawnPoint in coinSpawnPoints)
@@ -73,7 +88,7 @@ public class USV_Interactions : MonoBehaviour
     {
         if (!other.CompareTag("Player")) return;
 
-        if (!isPaid)
+        if (!isPaidUSV)
         {
             player.ReturnCoinsToPlayer(coinsInserted);
 

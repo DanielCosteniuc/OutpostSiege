@@ -192,7 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0f56f9c8caf63e499197e272320629a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 60
+  health: 20
   moveSpeed: -3.5
   detectionRadius: 4
   weapon: {fileID: 6574787655158839625}
@@ -218,7 +218,7 @@ MonoBehaviour:
   lineRenderer: {fileID: 6069032287399437540}
   raycastLayers:
     serializedVersion: 2
-    m_Bits: 2176
+    m_Bits: 2240
 --- !u!1 &7473480989096219431
 GameObject:
   m_ObjectHideFlags: 0

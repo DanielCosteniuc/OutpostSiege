@@ -20,6 +20,11 @@ public class Weapon : MonoBehaviour
             {
                 enemy.TakeDamage(damage);
             }
+            EnemyBase enemyBase = hitInfo.transform.GetComponent<EnemyBase>();
+            if (enemyBase != null)
+            {
+                enemyBase.TakeDamage(damage);
+            }
             lineRenderer.SetPosition(0, firePoint.position);
             lineRenderer.SetPosition(1, hitInfo.point);
         }

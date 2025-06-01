@@ -218,7 +218,7 @@ MonoBehaviour:
   - {fileID: 1332502184745485994}
   - {fileID: 4551250973533000060}
   - {fileID: 7978657309428568086}
-  blockRadius: 4
+  blockRadius: 3
   wallLevel: 0
 --- !u!1 &8911049093651955501
 GameObject:

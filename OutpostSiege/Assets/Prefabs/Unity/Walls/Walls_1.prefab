@@ -285,7 +285,7 @@ MonoBehaviour:
   - {fileID: 9147056526646097666}
   - {fileID: 6565779285962422719}
   - {fileID: 5025976690042791842}
-  blockRadius: 5
+  blockRadius: 3
   wallLevel: 1
 --- !u!1 &8111483972063635519
 GameObject:
@@ -414,4 +414,4 @@ MonoBehaviour:
   hitColor: {r: 1, g: 0.5019608, b: 0.5019608, a: 1}
   flashDuration: 0.1
   fadeDuration: 0.5
-  replacementWallPrefab: {fileID: 7111799159911195125, guid: 1035aaa5ecafeab4b8dfc016f1a4408d, type: 3}
+  replacementWallPrefab: {fileID: 0}

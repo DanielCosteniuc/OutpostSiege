@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class Lvl1_Engineer_Tent : MonoBehaviour
 {
@@ -102,7 +102,7 @@ public class Lvl1_Engineer_Tent : MonoBehaviour
 
         engineerSpawned = true;
 
-        // Folosește metoda care resetează complet sistemul de monede
+        // Foloseste metoda care reseteaza complet sistemul de monede
         ResetCoinSystem();
     }
 
@@ -147,7 +147,7 @@ public class Lvl1_Engineer_Tent : MonoBehaviour
         player = null;
     }
 
-    // Metoda nouă pentru reset complet și re-creare a spawnurilor de monede
+    // Metoda noua pentru reset complet si re-creare a spawnurilor de monede
     private void ResetCoinSystem()
     {
         coinsInserted = 0;

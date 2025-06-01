@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 934519118959429856}
   - component: {fileID: 8056971245645280751}
   - component: {fileID: 872716911291113731}
-  m_Layer: 7
+  m_Layer: 12
   m_Name: Engineer
-  m_TagString: Allied
+  m_TagString: Engineer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -192,5 +192,3 @@ MonoBehaviour:
   moveSpeed: 4
   stopDistance: 0.2
   cutDuration: 2
-  minCoins: 1
-  maxCoins: 2

@@ -189,7 +189,7 @@ MonoBehaviour:
   hitColor: {r: 1, g: 0.5019608, b: 0.5019608, a: 1}
   flashDuration: 0.1
   fadeDuration: 0.5
-  replacementWallPrefab: {fileID: 7111799159911195125, guid: 1035aaa5ecafeab4b8dfc016f1a4408d, type: 3}
+  replacementWallPrefab: {fileID: 0}
 --- !u!1 &3043400404437371663
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,5 +413,5 @@ MonoBehaviour:
   - {fileID: 4850287614883015388}
   - {fileID: 3585855563258890892}
   - {fileID: 1569113366098528148}
-  blockRadius: 5
+  blockRadius: 3
   wallLevel: 2

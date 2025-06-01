@@ -12,10 +12,7 @@ public class Lvl1_Infantry_Tent : MonoBehaviour
     [SerializeField] private Transform[] coinSpawnPoints;
     [SerializeField] private Transform infantrySpawnPoint;
 
-    
-
-     private Infantry_Manager infantryManager;
-    
+    private Infantry_Manager infantryManager;
 
     private GameObject[] coinHolders;
     private GameObject[] coinVisuals;
@@ -25,9 +22,6 @@ public class Lvl1_Infantry_Tent : MonoBehaviour
     private bool infantrySpawned = false;
 
     private Player_Interactions player;
-
-    
-
 
     private IEnumerator Start()
     {
@@ -113,8 +107,6 @@ public class Lvl1_Infantry_Tent : MonoBehaviour
         ResetCoinSystem();
     }
 
-
-
     private void ResetCoinSystem()
     {
         coinsInserted = 0;
@@ -143,9 +135,8 @@ public class Lvl1_Infantry_Tent : MonoBehaviour
             }
         }
 
-        SpawnCoinHolders(); // 👈 recreează vizualul pentru următoarea achiziție
+        SpawnCoinHolders(); 
     }
-
 
     private void ReturnCoinsToPlayer()
     {

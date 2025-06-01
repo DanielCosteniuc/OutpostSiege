@@ -14,6 +14,12 @@ GameObject:
   - component: {fileID: 8012058220090640872}
   - component: {fileID: 6296975683022078722}
   - component: {fileID: 7056340976196789955}
+  - component: {fileID: 8976463152530695162}
+  - component: {fileID: 95017966889282646}
+  - component: {fileID: 658222809067089541}
+  - component: {fileID: 4633647945441429378}
+  - component: {fileID: 47461350516375438}
+  - component: {fileID: 1567918885663343571}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -78,7 +84,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 341444847
-  m_SortingLayer: 12
+  m_SortingLayer: 13
   m_SortingOrder: 0
   m_Sprite: {fileID: 7405406973212734814, guid: 4fcc909474110524a9ddbba513ed5ca6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -189,4 +195,91 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c2c1b5e269635948818aa75eec35cd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveForce: 6
+  moveForce: 7
+--- !u!114 &8976463152530695162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4762935749996554835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ada0f7f14caa1a44a9fe5e03ac1b740d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinManager: {fileID: 95017966889282646}
+  treeManager: {fileID: 47461350516375438}
+  engineerManager: {fileID: 658222809067089541}
+  infantryManager: {fileID: 4633647945441429378}
+--- !u!114 &95017966889282646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4762935749996554835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c38b598bbfad3ca42b06c9a0ba21f375, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxCoins: 30
+  startingCoins: 30
+  coinText: {fileID: 0}
+--- !u!114 &658222809067089541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4762935749996554835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4733325175f5ef4fa39764e4044c28c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4633647945441429378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4762935749996554835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3c0e7d4c686f224095022157b328d7b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &47461350516375438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4762935749996554835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db315adc47d03214483198d524416505, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxTrees: 5
+  coinManager: {fileID: 95017966889282646}
+  engineerManager: {fileID: 658222809067089541}
+--- !u!114 &1567918885663343571
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4762935749996554835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9149a28369ca9ee42a1c6d16b1a19655, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 100
+  flashDuration: 0.1
+  fadeDuration: 0.5
+  hitColor: {r: 1, g: 0.5019608, b: 0.5019608, a: 1}
+  gameOver: {fileID: 0}

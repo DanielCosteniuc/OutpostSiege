@@ -316,9 +316,24 @@ MonoBehaviour:
   - {fileID: 2133313378410110929}
   - {fileID: 4473956924691019674}
   - {fileID: 6085477135864786821}
+  isPaidUSV: 0
   treeBlockSize: {x: 6, y: 6}
   treeTag: Tree
   treeBlockCenterPoint: {fileID: 1736428092180041221}
+  dialogueToTrigger:
+    sentences:
+    - "Good job, Commander!\nYou've successfully retrieved the schematics from the
+      USV.\nYour efforts have unlocked the ability to upgrade your structures\u2014and
+      even build new ones."
+    - Press 'M' to access the player menu and explore these new options.
+    - 'Push forward, and you may be able to defeat the enemy once and for all.
+
+
+
+
+      Good
+      luck!'
+  dialogueManager: {fileID: 0}
 --- !u!1 &7055786979165942269
 GameObject:
   m_ObjectHideFlags: 0

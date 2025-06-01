@@ -22,8 +22,11 @@ public class Player_Movements : MonoBehaviour
 
     void Update()
     {
-        HandleMovement();
-        HandleAnimation();
+        if (!Pause_Menu_Controller.isPaused && !You_Won_Controller.isWon)
+        {
+            HandleMovement();
+            HandleAnimation();
+        }
     }
 
     void HandleMovement()

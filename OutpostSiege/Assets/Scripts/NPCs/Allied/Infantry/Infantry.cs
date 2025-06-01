@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
@@ -13,7 +13,6 @@ public class Infantry : MonoBehaviour
     [SerializeField] private float minMoveSpeed = 2f;
     [SerializeField] private float maxMoveSpeed = 3f;
     private float moveSpeed;
-
 
     [Header("Combat Settings")]
     [SerializeField] private float detectionRadius = 5f;
@@ -54,16 +53,13 @@ public class Infantry : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         originalColor = sr.color;
 
-        // Setează moveSpeed random între min și max
+        // Seteaza moveSpeed random anitre min si max
         moveSpeed = Random.Range(minMoveSpeed, maxMoveSpeed);
     }
 
-
-
-
     void Update()
     {
-        // 1. Caută inamic
+        // 1. Cauta inamic
         targetEnemy = FindNearestEnemy();
 
         if (targetEnemy != null)
@@ -92,7 +88,7 @@ public class Infantry : MonoBehaviour
             animator.ResetTrigger("shooting");
         }
 
-        // 2. Mișcare doar dacă nu suntem în luptă
+        // 2. Miscare doar daca nu suntem in lupta
         if (isMoving && !isEngagingEnemy)
         {
             transform.position = Vector3.MoveTowards(transform.position, moveTarget, moveSpeed * Time.deltaTime);
@@ -108,11 +104,10 @@ public class Infantry : MonoBehaviour
         }
     }
 
-
     public void MoveTo(Vector3 position)
     {
         moveTarget = position;
-        Debug.Log($"New target set at: {moveTarget}"); // Verifică unde se îndreaptă
+        //Debug.Log($"New target set at: {moveTarget}"); // Verifica unde se indreapta
         //Debug.Log($"[Infantry] Moving to {position}");
         isMoving = true;
         TargetDirection = position.x < transform.position.x ? Direction.Left : Direction.Right;
@@ -124,7 +119,6 @@ public class Infantry : MonoBehaviour
     {
         TargetDirection = direction;
     }
-
 
     GameObject FindNearestEnemy()
     {
@@ -168,8 +162,8 @@ public class Infantry : MonoBehaviour
 
     private void Die()
     {
-        // Informează managerul de moarte
-        Infantry_Manager manager = FindObjectOfType<Infantry_Manager>();
+        // Informeaza managerul de moarte lol
+        Infantry_Manager manager = FindFirstObjectByType<Infantry_Manager>();
         if (manager != null)
         {
             manager.OnInfantryDeath(this);
@@ -200,7 +194,6 @@ public class Infantry : MonoBehaviour
         return Vector3.Distance(transform.position, moveTarget) < 0.1f;
     }
 
-
     private void Flip(Vector3 targetPosition)
     {
         if (targetPosition.x < transform.position.x && facingRight)
@@ -228,5 +221,4 @@ public class Infantry : MonoBehaviour
         facingRight = !facingRight;
         Debug.Log("Infanteria intoarsa 180 grade");
     }
-
 }

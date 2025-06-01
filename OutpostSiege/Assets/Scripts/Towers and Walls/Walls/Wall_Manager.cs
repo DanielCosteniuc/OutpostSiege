@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Wall_Manager : MonoBehaviour
@@ -7,7 +7,7 @@ public class Wall_Manager : MonoBehaviour
     [SerializeField] private List<GameObject> validWallPrefabs; // Assign wall prefabs here
 
     [Header("Position Adjustment")]
-    [SerializeField] private float positionOffset = 1f; // Offset pentru a nu merge chiar în perete
+    [SerializeField] private float positionOffset = 1f; // Offset pentru a nu merge chiar in perete
     public float PositionOffset => positionOffset;
 
     private GameObject lastLeftWall;
@@ -15,8 +15,6 @@ public class Wall_Manager : MonoBehaviour
 
     private GameObject previousLeftWall;
     private GameObject previousRightWall;
-
-
 
     void Update()
     {
@@ -28,7 +26,7 @@ public class Wall_Manager : MonoBehaviour
     void UpdateLastWalls()
     {
         GameObject[] allWalls = GameObject.FindGameObjectsWithTag("Wall");
-       // Debug.Log($"[Wall_Manager] Found {allWalls.Length} wall objects.");
+        // Debug.Log($"[Wall_Manager] Found {allWalls.Length} wall objects.");
 
         List<GameObject> leftWalls = new List<GameObject>();
         List<GameObject> rightWalls = new List<GameObject>();
@@ -76,16 +74,15 @@ public class Wall_Manager : MonoBehaviour
         if (wallChanged && Infantry_Manager.Instance != null)
         {
             Infantry_Manager.Instance.AssignIdleInfantryToNewWall();
-            Infantry_Manager.Instance.ReassignMovingInfantryToWalls(); // Actualizează cei deja în mișcare
+            Infantry_Manager.Instance.ReassignMovingInfantryToWalls(); // Actualizeaza cei deja �n miscare
         }
 
-        if (!(leftWalls!=null) || !(rightWalls != null))
+        if (!(leftWalls != null) || !(rightWalls != null))
         {
             Debug.Log("[Wall_Manager] Wall null+++++");
             Infantry_Manager.Instance.AssignIdleInfantryToNewWall();
         }
     }
-
 
     bool IsValidWall(GameObject wall)
     {
@@ -138,7 +135,7 @@ public class Wall_Manager : MonoBehaviour
 
         Vector3 pos = wall.transform.position;
 
-        if (pos.x < 0) // zid stânga
+        if (pos.x < 0) // zid stanga
         {
             return new Vector3(pos.x + positionOffset, pos.y, pos.z);
         }
@@ -149,7 +146,6 @@ public class Wall_Manager : MonoBehaviour
 
         return pos;
     }
-
 
     public GameObject GetLastLeftWall() => lastLeftWall;
     public GameObject GetLastRightWall() => lastRightWall;

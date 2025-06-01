@@ -28,7 +28,7 @@ public class Player_CoinManager : MonoBehaviour
     /// </summary>
     public bool TrySpendCoin()
     {
-        if (currentCoins > 0)
+        if (currentCoins > 0 && Pause_Menu_Controller.isPaused == false && You_Won_Controller.isWon == false)
         {
             currentCoins--;
             UpdateCoinUI();
@@ -76,7 +76,4 @@ public class Player_CoinManager : MonoBehaviour
         currentCoins = Mathf.Max(currentCoins - amount, 0);
         UpdateCoinUI();
     }
-
-
-
 }
